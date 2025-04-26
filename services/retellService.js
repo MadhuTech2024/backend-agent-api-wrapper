@@ -10,12 +10,19 @@ exports.createRetellAgent = async ({ agent_name, instructions, language }) => {
     language_code: language
   };
 
-  const response = await axios.post(url, payload, {
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    }
-  });
+  try {
+    const response = await axios.post(url, payload, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      }
+    });
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.error('Error creating Retell agent:', error.message);
+    throw new Error('Failed to create Retell agent');
+  }
 };
+
+module.exports = { createRetellAgent };
